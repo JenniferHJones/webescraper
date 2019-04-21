@@ -17,29 +17,22 @@ var PORT = process.env.PORT || 8080;
 // Initialize Express App
 var app = express();
 
-// Set up Express Router
+// Set up Express Router & requires routes file to pass router object
 var router = express.Router();
+require("./config/routes")(router);
 
-// parse request body as JSON
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
+// Every request goes through router middleware
+app.use(router);
+
+// Make public a static folder
+app.use(express.static(__dirname + "/public"));
 
 // Connect Handlebars to Express app
 app.engine("handlebars", exphbs({ defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
-// set up routes
-// var routes = require("./routes");
-// app.use(routes);
-
-// Make public a static folder
-app.use(express.static(__dirname + "/public"));
-
 // Middleware to handle post requests and make available in req.body
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// Have every request go through router middleware
-app.use(router);
 
 // Use deployed db is possible or use local db
 var db = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
