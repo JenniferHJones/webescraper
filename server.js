@@ -3,6 +3,7 @@ var express = require("express");
 var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 var exphbs = require("express-handlebars");
+var path = require("path");
 
 // scraping tools
 // var axios = require("axios");
@@ -25,7 +26,11 @@ require("./config/routes")(router);
 app.use(router);
 
 // Make public a static folder
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(path.join(__dirname + "/public")));
+
+// Parse application body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Connect Handlebars to Express app
 app.engine("handlebars", exphbs({ defaultLayout: "main"}));
