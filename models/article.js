@@ -1,9 +1,9 @@
 var mongoose = require("mongoose");
 
-// reference to Schema constructor
+// Reference to Schema constructor
 var Schema = mongoose.Schema;
 
-// create new user schema object using the constructor
+// Create new user schema object using the constructor
 var ArticleSchema = new Schema({
     headline: {
         type: String,
@@ -14,6 +14,7 @@ var ArticleSchema = new Schema({
         type: String,
         required: true
     },
+    date: String,
     storyUrl: {
         type: String,
         required: true
@@ -21,16 +22,12 @@ var ArticleSchema = new Schema({
     saved: {
         type: Boolean,
         default: false
-    },
-    note: {
-        type: Schema.Types.ObjectId,
-        ref: "Note"
     }
 });
 
-// creates model using schema
+// Creates model using schema
 var Article = mongoose.model("Article", ArticleSchema);
 
-// exports the model
+// Exports the model
 module.exports = Article;
 
