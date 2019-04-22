@@ -5,12 +5,8 @@ var mongoose = require("mongoose");
 var exphbs = require("express-handlebars");
 var path = require("path");
 
-// scraping tools
-// var axios = require("axios");
-// var cheerio = require("cheerio");
-
 // require all models
-// var db = require("./models");
+// var db = require("/models");
 
 // Set up the port to be the host's port or local
 var PORT = process.env.PORT || 8080;
