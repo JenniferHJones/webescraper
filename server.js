@@ -3,10 +3,10 @@ var express = require("express");
 var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 var exphbs = require("express-handlebars");
-var path = require("path");
+var request = require("request");
+var cheerio = require("cheerio");
 
-// require all models
-// var db = require("/models");
+var db = require("./models");
 
 // Set up the port to be the host's port or local
 var PORT = process.env.PORT || 8080;
@@ -14,39 +14,26 @@ var PORT = process.env.PORT || 8080;
 // Initialize Express App
 var app = express();
 
-// Set up Express Router & requires routes file to pass router object
-var router = express.Router();
-require("./config/routes")(router);
-
-// Every request goes through router middleware
-app.use(router);
-
-// Make public a static folder
-app.use(express.static(path.join(__dirname + "/public")));
-
-// Parse application body as JSON
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// Middleware to handle post requests and make available in req.body
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connect Handlebars to Express app
 app.engine("handlebars", exphbs({ defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
-// Middleware to handle post requests and make available in req.body
-app.use(bodyParser.urlencoded({ extended: false }));
+// Make public a static folder
+app.use(express.static("public"));
 
-// Use deployed db is possible or use local db
-var db = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+// Set up Express Router & requires htmlRoutes file to pass router object
+var router = require("./config/routes");
 
-// Connect mongoose to the db
-mongoose.connect(db, function(error) {
-    if (error) {
-        console.log(error);
-    }
-    else {
-        console.log("Mongoose connection successful");
-    }
-});
+// Every request goes through router middleware
+app.use(router);
+
+// Use deployed db if possible or use local db
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 // Listen on the port
 app.listen(PORT, function () {

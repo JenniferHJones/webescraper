@@ -6,44 +6,58 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarColor02">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link ml-4" href="/">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link ml-4" href="/articles">Saved Articles</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link btn btn-danger scrape ml-4"><strong>Get New Articles</strong></a>
-            </li>
-        </ul>
+        <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link active ml-4" href="/">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link ml-4" href="/saved">Saved Articles</a>
+            <a class="btn btn-danger scrape ml-4" role="button" href="/scrape"><strong>Get New
+                    Articles</strong></a>
+        </div>
     </div>
 </nav>
 
 <!-- Main display -->
-<div class="jumbotron text-center">
-    <div class="overlay"></div>
-    <div class="caption">
-        <h1 class="display-3 mb-4">Mongo Web Scraper</h1>
-        <h3 class="display-5">New York Times Articles</h3>
+<div class="container-fluid">
+    <div class="jumbotron text-center">
+        <div class="overlay"></div>
+        <div class="caption">
+            <h1 class="display-3 mb-4">Mongo Web Scraper</h1>
+            <h3 class="display-5">Daily Democrat Articles</h3>
+        </div>
+    </div>
+
+    <!-- New articles -->
+    <div class="row">
+        <div class="col-12">
+            {{#if articles}}
+            {{#each articles}}
+            <div class="card w-90">
+                <div class="card-header">
+                    <a href={{link}} target="_blank">
+                        <h2>{{title}}</h2>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        {{summary}}
+                    </p>
+                    <button id="{{_id}}" class="btn btn-sucess save-btn">Save Article</button>
+                </div>
+            </div>
+            {{/each}}
+            {{else}}
+            <div class="card">
+                <div class="card-body text-center">
+                    There are no new articles
+                </div>
+            </div>
+            {{/if}}
+        </div>
     </div>
 </div>
-
-<!-- New articles -->
-<div class="container-fluid article-container"></div>
 
 <!-- Footer -->
 <footer class="footer bg-success mt-auto text-center py-3">
     <div class="container">
-        <span>Mongo Web Scraper for the New York Times</span>
+        <span>Mongo Web Scraper</span>
     </div>
 </footer>
-
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<!-- Bootstrap -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<!-- Bootbox -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
-<!-- Custom JS -->
-<script src="../public/assets/js/index.js"></script>

@@ -5,23 +5,27 @@ var Schema = mongoose.Schema;
 
 // Create new user schema object using the constructor
 var ArticleSchema = new Schema({
-    headline: {
+    title: {
         type: String,
         required: true,
         unique: true
     },
     summary: {
         type: String,
-        required: true
+        required: false
     },
-    date: String,
-    storyUrl: {
+    link: {
         type: String,
-        required: true
-    }, 
+        required: true,
+        unique: true
+    },
     saved: {
         type: Boolean,
         default: false
+    },
+    note: {
+        type: Schema.Types.ObjectId,
+        ref: "Note"
     }
 });
 
