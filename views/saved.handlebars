@@ -27,16 +27,18 @@
     <div class="row">
         <div class="col-12">
             {{#each articles}}
-            <div class="card w-90">
+            <div class="card text-white bg-secondary mb-3">
                 <div class="card-header">
+                    <button data="{{_id}}" class="btn btn-warning btn-sm note-btn">Article Notes</button>
+                    <button data="{{_id}}" class="btn btn-danger btn-sm delete-btn">Delete from Saved</button>
+                    
+                </div>
+                <div class="card-body">
                     <a href={{link}} target="_blank">
                         <h3>{{title}}</h3>
                     </a>
-                </div>
-                <div class="card-body">
                     <p class="card-text">{{summary}}</p>
-                    <button data="{{_id}}" class="btn btn-info note-btn">Article Notes</button>
-                    <button data="{{_id}}" class="btn btn-danger delete-btn">Delete from Saved</button>
+                    
                 </div>
             </div>
             {{/each}}
