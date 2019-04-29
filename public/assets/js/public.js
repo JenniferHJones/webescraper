@@ -1,5 +1,19 @@
 $(document).ready(function () {
 
+    // Function for scrape
+    $(".scrape-btn").click(function (event) {
+        event.preventDefault();
+        $(".card-body").empty();
+
+        $.ajax({
+            method: "GET",
+            url: "/scrape",
+        })
+            .then(function (data) {
+                // console.log(data);
+            })
+    })
+
     // Function for delete
     $(".delete-btn").click(function (event) {
         event.preventDefault();
@@ -32,14 +46,13 @@ $(document).ready(function () {
             }
             else {
                 $(".articles-available")
-                .append($(`<li class='list-group-item'>
-                This article has no notes.</li>`));
+                    .append($(`<li class='list-group-item'>This article has no notes.</li>`));
             }
         })
         $("#note-modal").modal("toggle");
     });
 
-    $(document).on("click", ".btn-deletenote", function () {
+    $(".btn-deletenote").click(function (event) {
         event.preventDefault();
         // console.log($(this).attr("data"))
         var id = $(this).attr("data");
@@ -72,8 +85,7 @@ $(document).ready(function () {
         $.ajax("/save/${id}", {
             type: "PUT"
         }).then(function () {
-            var alert = `
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            var alert = `<div class="alert alert-success alert-dismissible fade show" role="alert">
         Your note was saved!
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>

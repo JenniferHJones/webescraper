@@ -2,11 +2,10 @@
 var express = require("express");
 var router = express.Router();
 var db = require("../models");
-// var request = require("request");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
-// Root page route
+// HTML root page route
 router.get("/", function (req, res) {
   db.Article.find({})
     .then(function (dbArticle) {
@@ -21,7 +20,7 @@ router.get("/", function (req, res) {
     })
 });
 
-// Saved articles route
+// HTML saved articles route
 router.get("/saved", function (req, res) {
   db.Article.find({ saved: true })
     .then(function (scrapedArticles) {
@@ -35,25 +34,29 @@ router.get("/saved", function (req, res) {
     })
 });
 
-// Route to scrape NYT website
+// Route to scrape news website
 router.get("/scrape", function (req, res) {
-  console.log("Ran scrape");
+  console.log("Running scrape");
+
   axios.get("https://www.dailydemocrat.com").then(function (response) {
     var $ = cheerio.load(response.data);
 
-    $(".article-info").each(function (i, element) {
+    $(".entry-title").each(function (i, element) {
+      // Save to an empty object
       var result = {};
+
+      // Add title and link for each article and save to result object
       result.title = $(this)
-        .children(".entry-title")
-        .children("article-title")
-        .text();
-      result.link = $(this)
         .children(".article-title")
+        .text()
+        .trim();
+      result.link = $(this)
         .children("a")
         .attr("href");
-      // result.summary = $(this)
-      //   .children(".summary")
-      //   .text().trim();
+      result.summary = $(this)
+        .children(".excerpt")
+        .text()
+        .trim();
 
       db.Article.create(result)
         .then(function (dbArticle) {
@@ -104,10 +107,10 @@ router.put("/remove/:id", function (req, res) {
 
 // Route for getting specific article by id to add a note
 router.get("/articles/:id", function (req, res) {
-  db.Article.find({ _id: req.params.id })
+  db.Article.findOne({ _id: req.params.id })
     .populate({
-      path: 'note',
-      model: 'Note'
+      path: "note",
+      model: "Note"
     })
     .then(function (dbArticle) {
       res.json(dbArticle);

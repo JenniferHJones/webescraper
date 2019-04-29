@@ -1,12 +1,7 @@
 // Dependencies
 var express = require("express");
-var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 var exphbs = require("express-handlebars");
-var request = require("request");
-var cheerio = require("cheerio");
-
-var db = require("./models");
 
 // Set up the port to be the host's port or local
 var PORT = process.env.PORT || 8080;
@@ -14,8 +9,9 @@ var PORT = process.env.PORT || 8080;
 // Initialize Express App
 var app = express();
 
-// Middleware to handle post requests and make available in req.body
-app.use(bodyParser.urlencoded({ extended: true }));
+// Parse request body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Connect Handlebars to Express app
 app.engine("handlebars", exphbs({ defaultLayout: "main"}));

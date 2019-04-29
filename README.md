@@ -14,12 +14,10 @@ This application is deployed to [Heroku](https://mighty-tundra-40442.herokuapp.c
 
 2. Run NPM Install for the following dependencies
     * Axios
-    * Body-parser
-    * cheerio
+    * Cheerio
     * Express
     * Express-handlebars
     * Mongoose
-    * Request
 
 3. Run Node.js application using `node server.js` in the terminal
 
