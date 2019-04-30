@@ -23,10 +23,10 @@ var ArticleSchema = new Schema({
         type: Boolean,
         default: false
     },
-    note: {
+    note: [{
         type: Schema.Types.ObjectId,
         ref: "Note"
-    }
+    }]
 });
 
 // Creates model using schema

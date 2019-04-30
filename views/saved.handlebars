@@ -29,8 +29,8 @@
             {{#each articles}}
             <div class="card text-white bg-secondary mb-3">
                 <div class="card-header">
+                    <button data="{{_id}}" class="btn btn-danger btn-sm delete-btn">Remove Article</button>
                     <button data="{{_id}}" class="btn btn-warning btn-sm note-btn">Article Notes</button>
-                    <button data="{{_id}}" class="btn btn-danger btn-sm delete-btn">Delete from Saved</button>
                     
                 </div>
                 <div class="card-body">

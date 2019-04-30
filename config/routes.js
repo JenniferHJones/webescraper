@@ -84,7 +84,7 @@ router.get("/articles", function (req, res) {
 });
 
 // Route to save an article
-router.get("/save/:id", function (req, res) {
+router.put("/save/:id", function (req, res) {
   db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true })
     .then(function (data) {
       res.json(data);
@@ -96,7 +96,7 @@ router.get("/save/:id", function (req, res) {
 
 // Route to remove an article from saved
 router.put("/remove/:id", function (req, res) {
-  db.Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: false })
+  db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: false })
     .then(function (data) {
       res.json(data)
     })
@@ -108,10 +108,7 @@ router.put("/remove/:id", function (req, res) {
 // Route for getting specific article by id to add a note
 router.get("/articles/:id", function (req, res) {
   db.Article.findOne({ _id: req.params.id })
-    .populate({
-      path: "note",
-      model: "Note"
-    })
+  .populate('note')
     .then(function (dbArticle) {
       res.json(dbArticle);
     })
@@ -138,7 +135,7 @@ router.post("/note/:id", function (req, res) {
 
 router.delete("/note/:id", function (req, res) {
   // Create a new note with req.body as the text
-  db.Note.findByIdAndRemove({ _id: req.params.id })
+  db.Note.deleteOne({ _id: req.params.id })
     .then(function (dbNote) {
       return db.Article.findOneAndUpdate({ note: req.params.id }, { $pullAll: [{ note: req.params.id }] });
     })
